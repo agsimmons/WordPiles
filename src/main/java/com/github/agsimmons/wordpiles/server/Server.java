@@ -21,9 +21,79 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.github.agsimmons.wordpiles.server;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
+
 public class Server {
-    
+
+    private final int DEFAULT_PORT = 8888;
+
+    private int port;
+
+    private ServerSocket serverSocket;
+    private Socket playerOne;
+    private Socket playerTwo;
+
+    public Server() {
+        chooseServerPort();
+        createServerSocket();
+        createClientSockets();
+    }
+
+    private void chooseServerPort() {
+        Scanner scanner = new Scanner(System.in);
+        String input;
+
+        boolean validPort = false;
+        do {
+
+            boolean portChosen = false;
+            do {
+
+                System.out.print("Server Port (" + DEFAULT_PORT + "): ");
+                input = scanner.nextLine();
+                if (input.equals("")) {
+                    port = DEFAULT_PORT;
+                    portChosen = true;
+                } else {
+                    try {
+                        port = Integer.parseInt(input);
+                        portChosen = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("ERROR: Invalid port!");
+                    }
+                }
+
+            } while (!portChosen);
+
+            // Check if port is already in use
+            try {
+                (new ServerSocket(port)).close();
+                validPort = true;
+            } catch (IOException ex) {
+                System.out.println("ERROR: Could not bind to port! It could be in use or reserved. Please choose a different port");
+            }
+
+        } while (!validPort);
+    }
+
+    private void createServerSocket() {
+        try {
+            serverSocket = new ServerSocket(port);
+        } catch (IOException ex) {
+            System.out.println("ERROR: Could not create server socket!");
+            System.out.println("This error is not handled yet. Shutting Down!");
+            System.exit(1);
+        }
+    }
+
+    private void createClientSockets() {
+        playerOne = new Socket();
+        playerTwo = new Socket();
+    }
+
 }
