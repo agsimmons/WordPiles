@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.github.agsimmons.wordpiles;
 
 import com.github.agsimmons.wordpiles.client.Client;
@@ -30,7 +29,6 @@ import com.github.agsimmons.wordpiles.server.Server;
 public class WordPiles {
 
     public static void main(String[] args) {
-
         if (args.length > 1) {
             // Parse argument(s)
             switch (args[1]) {
@@ -47,7 +45,6 @@ public class WordPiles {
         } else {
             displayProgramInfo();
         }
-
     }
 
     private static void createClient() {
