@@ -41,7 +41,7 @@ public class Server {
     public Server() {
         chooseServerPort();
         createServerSocket();
-        createClientSockets();
+        connectClients();
     }
 
     private void chooseServerPort() {
@@ -91,9 +91,30 @@ public class Server {
         }
     }
 
-    private void createClientSockets() {
-        playerOne = new Socket();
-        playerTwo = new Socket();
+    private void connectClients() {
+        boolean playerOneConnected = false;
+        do {
+            try {
+                System.out.println("Waiting for playerOne to connect...");
+                playerOne = serverSocket.accept();
+                System.out.println("playerOne connected!");
+                playerOneConnected = true;
+            } catch (IOException ex) {
+                System.out.println("ERROR: Could not connect to playerOne");
+            }
+        } while (!playerOneConnected);
+        
+        boolean playerTwoConnected = false;
+        do {
+            try {
+                System.out.println("Waiting for playerTwo to connect...");
+                playerOne = serverSocket.accept();
+                System.out.println("playerOne connected!");
+                playerTwoConnected = true;
+            } catch (IOException ex) {
+                System.out.println("ERROR: Could not connect to playerTwo");
+            }
+        } while (!playerTwoConnected);
     }
 
 }
