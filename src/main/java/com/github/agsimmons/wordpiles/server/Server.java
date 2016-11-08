@@ -109,7 +109,7 @@ public class Server {
             try {
                 System.out.println("Waiting for playerTwo to connect...");
                 playerOne = serverSocket.accept();
-                System.out.println("playerOne connected!");
+                System.out.println("playerTwo connected!");
                 playerTwoConnected = true;
             } catch (IOException ex) {
                 System.out.println("ERROR: Could not connect to playerTwo");
