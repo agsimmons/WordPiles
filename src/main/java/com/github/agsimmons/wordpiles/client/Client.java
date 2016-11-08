@@ -23,6 +23,58 @@
  */
 package com.github.agsimmons.wordpiles.client;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
+
 public class Client {
-    
+
+    private final int DEFAULT_PORT = 8888;
+
+    private Socket clientSocket;
+
+    public Client() {
+        createSocket();
+    }
+
+    private void createSocket() {
+        Scanner scanner = new Scanner(System.in);
+        String serverIP;
+        String serverPort;
+        int port = 0;
+
+        boolean isValidAddress = false;
+        do {
+            boolean addressChosen = false;
+            do {
+
+                System.out.print("Server IP: ");
+                serverIP = scanner.nextLine();
+
+                System.out.print("Server Port (8888): ");
+                serverPort = scanner.nextLine();
+                if (serverPort.equals("")) {
+                    port = DEFAULT_PORT;
+                    addressChosen = true;
+                } else {
+                    try {
+                        port = Integer.parseInt(serverPort);
+                        addressChosen = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("ERROR: Invalid port!");
+                    }
+                }
+
+            } while (!addressChosen);
+            
+            try {
+                clientSocket = new Socket(serverIP, port);
+                isValidAddress = true;
+            } catch (IOException ex) {
+                System.out.println("ERROR: Could not create socket to server!");
+            }
+            
+        } while (!isValidAddress);
+    }
+
 }
