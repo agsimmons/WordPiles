@@ -26,7 +26,7 @@ package com.github.agsimmons.jtictactoe;
 import com.github.agsimmons.jtictactoe.client.Client;
 import com.github.agsimmons.jtictactoe.server.Server;
 
-public class WordPiles {
+public class jTicTacToe {
 
     public static void main(String[] args) {
         if (args.length > 1) {
