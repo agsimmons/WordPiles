@@ -4,11 +4,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.agsimmons</groupId>
-  <artifactId>wordpiles</artifactId>
+  <artifactId>jTic-Tac-Toe</artifactId>
   <version>0.0.0</version>
   <packaging>jar</packaging>
 
-  <name>WordPiles</name>
+  <name>jTic-Tac-Toe</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

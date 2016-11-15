@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.agsimmons.wordpiles;
+package com.github.agsimmons.jtictactoe;
 
-import com.github.agsimmons.wordpiles.client.Client;
-import com.github.agsimmons.wordpiles.server.Server;
+import com.github.agsimmons.jtictactoe.client.Client;
+import com.github.agsimmons.jtictactoe.server.Server;
 
 public class WordPiles {
 

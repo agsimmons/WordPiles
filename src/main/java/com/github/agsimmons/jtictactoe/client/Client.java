@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.agsimmons.wordpiles.client;
+package com.github.agsimmons.jtictactoe.client;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
