@@ -23,18 +23,26 @@
  */
 package com.github.agsimmons.wordpiles.client;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Client {
 
     private final int DEFAULT_PORT = 8888;
 
     private Socket clientSocket;
+    
+    private static DataInputStream recieve;
+    private static DataOutputStream send;
 
     public Client() {
         createSocket();
+        gameLoop();
     }
 
     private void createSocket() {
@@ -66,15 +74,28 @@ public class Client {
                 }
 
             } while (!addressChosen);
-            
+
             try {
                 clientSocket = new Socket(serverIP, port);
                 isValidAddress = true;
             } catch (IOException ex) {
                 System.out.println("ERROR: Could not create socket to server!");
             }
-            
+
         } while (!isValidAddress);
+    }
+
+    // Currenty does not correctly read message
+    private void gameLoop() {
+        while (true) {
+            try {
+                if (recieve.available() != 0) {
+                    System.out.println(recieve.readUTF());
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
 }

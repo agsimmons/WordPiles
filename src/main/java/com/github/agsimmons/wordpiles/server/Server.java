@@ -23,6 +23,8 @@
  */
 package com.github.agsimmons.wordpiles.server;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -38,10 +40,17 @@ public class Server {
     private Socket playerOne;
     private Socket playerTwo;
 
+    private static DataInputStream p1recieve;
+    private static DataOutputStream p1send;
+    private static DataInputStream p2recieve;
+    private static DataOutputStream p2send;
+
     public Server() {
         chooseServerPort();
         createServerSocket();
         connectClients();
+        initializeIOStreams();
+        gameLoop();
     }
 
     private void chooseServerPort() {
@@ -103,7 +112,7 @@ public class Server {
                 System.out.println("ERROR: Could not connect to playerOne");
             }
         } while (!playerOneConnected);
-        
+
         boolean playerTwoConnected = false;
         do {
             try {
@@ -115,6 +124,38 @@ public class Server {
                 System.out.println("ERROR: Could not connect to playerTwo");
             }
         } while (!playerTwoConnected);
+    }
+
+    private void initializeIOStreams() {
+        try {
+            p1recieve = new DataInputStream(playerOne.getInputStream());
+            p1send = new DataOutputStream(playerOne.getOutputStream());
+
+            p2recieve = new DataInputStream(playerTwo.getInputStream());
+            p2send = new DataOutputStream(playerTwo.getOutputStream());
+        } catch (IOException ex) {
+            System.out.println("ERROR: Could not create IO streams!");
+            System.exit(1);
+        }
+    }
+
+    private void gameLoop() {
+        sendWelcomeMessage();
+
+        while (true) {
+
+        }
+    }
+
+    // Currently does not work
+    private void sendWelcomeMessage() {
+        try {
+            p1send.writeUTF("Welcome to WordPiles! You are Player 1");
+            p2send.writeUTF("Welcome to WordPiles! You are Player 2");
+        } catch (IOException ex) {
+            System.out.println("ERROR: Could not send welcome message!");
+            System.exit(1);
+        }
     }
 
 }
