@@ -33,15 +33,16 @@ import java.util.logging.Logger;
 
 public class Client {
 
-    private final int DEFAULT_PORT = 8888;
+    private static final int DEFAULT_PORT = 8888;
 
     private Socket clientSocket;
-    
-    private static DataInputStream recieve;
-    private static DataOutputStream send;
+
+    private DataInputStream recieve;
+    private DataOutputStream send;
 
     public Client() {
         createSocket();
+        initializeIOStreams();
         gameLoop();
     }
 
@@ -84,18 +85,31 @@ public class Client {
 
         } while (!isValidAddress);
     }
-
-    // Currenty does not correctly read message
-    private void gameLoop() {
-        while (true) {
-            try {
-                if (recieve.available() != 0) {
-                    System.out.println(recieve.readUTF());
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-            }
+    
+    private void initializeIOStreams() {
+        try {
+            recieve = new DataInputStream(clientSocket.getInputStream());
+            send = new DataOutputStream(clientSocket.getOutputStream());
+        } catch (IOException ex) {
+            System.out.println("ERROR: Could not create IO streams!");
+            System.exit(1);
         }
+    }
+
+    private void gameLoop() {
+        System.out.println(recieveMessage());
+    }
+    
+    private String recieveMessage() {
+        String returnMessage = "";
+        
+        try {
+            returnMessage = recieve.readUTF();
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return returnMessage;
     }
 
 }

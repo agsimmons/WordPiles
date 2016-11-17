@@ -40,10 +40,10 @@ public class Server {
     private Socket playerOne;
     private Socket playerTwo;
 
-    private static DataInputStream p1recieve;
-    private static DataOutputStream p1send;
-    private static DataInputStream p2recieve;
-    private static DataOutputStream p2send;
+    private DataInputStream p1recieve;
+    private DataOutputStream p1send;
+    private DataInputStream p2recieve;
+    private DataOutputStream p2send;
 
     public Server() {
         chooseServerPort();
@@ -141,13 +141,8 @@ public class Server {
 
     private void gameLoop() {
         sendWelcomeMessage();
-
-        while (true) {
-
-        }
     }
 
-    // Currently does not work
     private void sendWelcomeMessage() {
         try {
             p1send.writeUTF("Welcome to WordPiles! You are Player 1");
