@@ -85,7 +85,7 @@ public class Client {
 
         } while (!isValidAddress);
     }
-    
+
     private void initializeIOStreams() {
         try {
             recieve = new DataInputStream(clientSocket.getInputStream());
@@ -99,16 +99,16 @@ public class Client {
     private void gameLoop() {
         System.out.println(recieveMessage());
     }
-    
+
     private String recieveMessage() {
         String returnMessage = "";
-        
+
         try {
             returnMessage = recieve.readUTF();
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return returnMessage;
     }
 
