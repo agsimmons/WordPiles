@@ -31,6 +31,7 @@ import java.util.Scanner;
 
 public class Client {
 
+    private static final String DEFAULT_HOST = "127.0.0.1";
     private static final int DEFAULT_PORT = 8888;
 
     private Socket clientSocket;
@@ -47,7 +48,7 @@ public class Client {
 
     private void createSocket() {
         Scanner scanner = new Scanner(System.in);
-        String serverIP;
+        String serverHost;
         String serverPort;
         int port = 0;
 
@@ -56,8 +57,11 @@ public class Client {
             boolean addressChosen = false;
             do {
 
-                System.out.print("Server IP: ");
-                serverIP = scanner.nextLine();
+                System.out.print("Server IP (127.0.0.1): ");
+                serverHost = scanner.nextLine();
+                if (serverHost.equals("")) {
+                    serverHost = DEFAULT_HOST;
+                }
 
                 System.out.print("Server Port (8888): ");
                 serverPort = scanner.nextLine();
@@ -76,7 +80,7 @@ public class Client {
             } while (!addressChosen);
 
             try {
-                clientSocket = new Socket(serverIP, port);
+                clientSocket = new Socket(serverHost, port);
                 isValidAddress = true;
             } catch (IOException ex) {
                 System.out.println("ERROR: Could not create socket to server!");
