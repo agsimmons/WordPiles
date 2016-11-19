@@ -28,8 +28,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Client {
 
@@ -39,6 +37,7 @@ public class Client {
 
     private DataInputStream recieve;
     private DataOutputStream send;
+    private Scanner input;
 
     public Client() {
         createSocket();
@@ -90,6 +89,7 @@ public class Client {
         try {
             recieve = new DataInputStream(clientSocket.getInputStream());
             send = new DataOutputStream(clientSocket.getOutputStream());
+            input = new Scanner(System.in);
         } catch (IOException ex) {
             System.out.println("ERROR: Could not create IO streams!");
             System.exit(1);
@@ -97,19 +97,43 @@ public class Client {
     }
 
     private void gameLoop() {
-        System.out.println(recieveMessage());
+        boolean gameInProgress = true;
+        while (gameInProgress) {
+            gameInProgress = recieveMessage();
+        }
     }
 
-    private String recieveMessage() {
-        String returnMessage = "";
-
+    private boolean recieveMessage() {
         try {
-            returnMessage = recieve.readUTF();
+            String returnMessage = recieve.readUTF();
+
+            switch (returnMessage) {
+                case "RESPOND":
+                    respond();
+                    break;
+                case "END":
+                    return false;
+                default:
+                    System.out.println(returnMessage);
+                    break;
+            }
+
         } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("ERROR: Could not recieve message!");
+            System.exit(1);
         }
 
-        return returnMessage;
+        return true;
+    }
+
+    private void respond() {
+        try {
+            System.out.print("Response: ");
+            send.writeUTF(input.nextLine());
+        } catch (IOException ex) {
+            System.out.println("ERROR: Could not send response!");
+            System.exit(1);
+        }
     }
 
 }
