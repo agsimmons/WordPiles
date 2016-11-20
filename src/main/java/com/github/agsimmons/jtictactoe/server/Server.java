@@ -141,6 +141,12 @@ public class Server {
 
     private void gameLoop() {
         sendWelcomeMessage();
+        askNames();
+        disconnectPlayers();
+
+        while (true) {
+            //TODO
+        }
     }
 
     private void sendWelcomeMessage() {
@@ -149,6 +155,43 @@ public class Server {
             p2send.writeUTF("Welcome to WordPiles! You are Player 2");
         } catch (IOException ex) {
             System.out.println("ERROR: Could not send welcome message!");
+            System.exit(1);
+        }
+    }
+
+    private void askNames() {
+        try {
+            p1send.writeUTF("What is your name?");
+            p1send.writeUTF("RESPOND");
+            String playerOneName = p1recieve.readUTF();
+
+            p2send.writeUTF("What is your name?");
+            p2send.writeUTF("RESPOND");
+            String playerTwoName = p2recieve.readUTF();
+
+            p1send.writeUTF("Your opponent is " + playerTwoName);
+            p2send.writeUTF("Your opponent is " + playerOneName);
+        } catch (IOException ex) {
+            System.out.println("ERROR: Failed to ask names!");
+            System.exit(1);
+        }
+    }
+
+    private void disconnectPlayers() {
+        try {
+            p1send.writeUTF("Goodbye!");
+            p1send.writeUTF("END");
+            p1send.close();
+            p1recieve.close();
+            playerOne.close();
+
+            p2send.writeUTF("Goodbye!");
+            p2send.writeUTF("END");
+            p2send.close();
+            p2recieve.close();
+            playerTwo.close();
+        } catch (IOException ex) {
+            System.out.println("ERROR: Could not disconnect players!");
             System.exit(1);
         }
     }
