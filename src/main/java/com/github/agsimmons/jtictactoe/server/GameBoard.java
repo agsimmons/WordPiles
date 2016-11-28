@@ -15,10 +15,10 @@ public class GameBoard {
     }
 
     public String drawBoardState() {
-        String boardState = " 012\n";
+        String boardState = "  012\n";
 
         for (int y = 0; y < board.length; y++) {
-            boardState += y;
+            boardState += y + " ";
             for (int x = 0; x < board.length; x++) {
                 switch (board[x][y]) {
                     case 1:
