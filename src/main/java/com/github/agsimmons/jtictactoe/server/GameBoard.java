@@ -2,7 +2,7 @@ package com.github.agsimmons.jtictactoe.server;
 
 public class GameBoard {
 
-    private final int DEFAULT_DIMENSION = 3;
+    private static final int DEFAULT_DIMENSION = 3;
 
     private int[][] board;
 
