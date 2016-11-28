@@ -45,6 +45,8 @@ public class Server {
     private DataInputStream p2recieve;
     private DataOutputStream p2send;
 
+    private GameBoard gameBoard;
+
     public Server() {
         chooseServerPort();
         createServerSocket();
@@ -140,13 +142,44 @@ public class Server {
     }
 
     private void gameLoop() {
-        sendWelcomeMessage();
-        askNames();
-        disconnectPlayers();
+        initialize();
 
         while (true) {
-            //TODO
+            playerOneMove();
+            displayBoardState();
+            if (gameBoard.checkForWinner() == 1) {
+                playerOneWins();
+                break;
+            } else if (gameBoard.checkForWinner() == 2) {
+                playerTwoWins();
+                break;
+            }
+
+            playerTwoMoves();
+            displayBoardState();
+            if (gameBoard.checkForWinner() == 1) {
+                playerOneWins();
+                break;
+            } else if (gameBoard.checkForWinner() == 2) {
+                playerTwoWins();
+                break;
+            }
         }
+
+        disconnectPlayers();
+
+        System.out.println("Game Over. Thanks for playing!");
+        System.exit(0);
+    }
+
+    private void initialize() {
+        createBoard();
+        sendWelcomeMessage();
+        askNames();
+    }
+
+    private void createBoard() {
+        gameBoard = new GameBoard();
     }
 
     private void sendWelcomeMessage() {
@@ -173,6 +206,61 @@ public class Server {
             p2send.writeUTF("Your opponent is " + playerOneName);
         } catch (IOException ex) {
             System.out.println("ERROR: Failed to ask names!");
+            System.exit(1);
+        }
+    }
+
+    private void playerOneMove() {
+        try {
+            p1send.writeUTF("Make a move (x y): ");
+            p1send.writeUTF("RESPOND");
+            String[] response = p1recieve.readUTF().split(" ");
+            gameBoard.makeMove(1, Integer.parseInt(response[0]), Integer.parseInt(response[1]));
+        } catch (IOException ex) {
+            System.out.println("ERROR: Could not process player one's move!");
+            System.exit(1);
+        }
+    }
+
+    private void playerTwoMoves() {
+        try {
+            p2send.writeUTF("Make a move (x y): ");
+            p2send.writeUTF("RESPOND");
+            String[] response = p2recieve.readUTF().split(" ");
+            gameBoard.makeMove(2, Integer.parseInt(response[0]), Integer.parseInt(response[1]));
+        } catch (IOException ex) {
+            System.out.println("ERROR: Could not process player two's move!");
+            System.exit(1);
+        }
+    }
+
+    private void displayBoardState() {
+        String boardState = "\n" + gameBoard.drawBoardState() + "\n";
+        try {
+            p1send.writeUTF(boardState);
+            p2send.writeUTF(boardState);
+        } catch (IOException ex) {
+            System.out.println("ERROR: Could not send board state!");
+            System.exit(1);
+        }
+    }
+
+    private void playerOneWins() {
+        try {
+            p1send.writeUTF("Player One Wins!");
+            p2send.writeUTF("Player One Wins!");
+        } catch (IOException ex) {
+            System.out.println("ERROR: playerOneWins could not be executed!");
+            System.exit(1);
+        }
+    }
+
+    private void playerTwoWins() {
+        try {
+            p1send.writeUTF("Player Two Wins!");
+            p2send.writeUTF("Player Two Wins!");
+        } catch (IOException ex) {
+            System.out.println("ERROR: playerOneWins could not be executed!");
             System.exit(1);
         }
     }
