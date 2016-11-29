@@ -44,6 +44,15 @@ public class GameBoard {
 
     public int checkForWinner() {
 
+        // Tie
+        if (board[0][0] != 0 && board[1][0] != 0 && board[2][0] != 0
+                && board[0][1] != 0 && board[1][1] != 0 && board[2][1] != 0
+                && board[0][2] != 0 && board[1][2] != 0 && board[2][2] != 0) {
+
+            return 0;
+
+        }
+
         // Player One
         // Horizontal
         if (board[0][0] == 1 && board[1][0] == 1 && board[2][0] == 1) {

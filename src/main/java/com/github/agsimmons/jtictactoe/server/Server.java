@@ -153,6 +153,9 @@ public class Server {
             } else if (gameBoard.checkForWinner() == 2) {
                 playerTwoWins();
                 break;
+            } else if (gameBoard.checkForWinner() == 0) {
+                tie();
+                break;
             }
 
             playerTwoMoves();
@@ -162,6 +165,9 @@ public class Server {
                 break;
             } else if (gameBoard.checkForWinner() == 2) {
                 playerTwoWins();
+                break;
+            } else if (gameBoard.checkForWinner() == 0) {
+                tie();
                 break;
             }
         }
@@ -261,6 +267,16 @@ public class Server {
             p2send.writeUTF("Player Two Wins!");
         } catch (IOException ex) {
             System.out.println("ERROR: playerOneWins could not be executed!");
+            System.exit(1);
+        }
+    }
+
+    private void tie() {
+        try {
+            p1send.writeUTF("It's a tie!");
+            p2send.writeUTF("It's a tie!");
+        } catch (IOException ex) {
+            System.out.println("ERROR: tie could not be executed!");
             System.exit(1);
         }
     }
