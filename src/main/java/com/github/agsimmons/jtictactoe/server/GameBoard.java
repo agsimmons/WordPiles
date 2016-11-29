@@ -42,6 +42,10 @@ public class GameBoard {
         board[x][y] = player;
     }
 
+    public int getCellState(int firstNum, int secondNum) {
+        return board[firstNum][secondNum];
+    }
+
     public int checkForWinner() {
 
         // Tie

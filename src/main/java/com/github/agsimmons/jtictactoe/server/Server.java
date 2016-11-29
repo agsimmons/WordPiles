@@ -158,7 +158,7 @@ public class Server {
                 break;
             }
 
-            playerTwoMoves();
+            playerTwoMove();
             displayBoardState();
             if (gameBoard.checkForWinner() == 1) {
                 playerOneWins();
@@ -220,24 +220,69 @@ public class Server {
         try {
             p1send.writeUTF("Make a move (x y): ");
             p1send.writeUTF("RESPOND");
-            String[] response = p1recieve.readUTF().split(" ");
-            gameBoard.makeMove(1, Integer.parseInt(response[0]), Integer.parseInt(response[1]));
+            String response = p1recieve.readUTF();
+            if (!isValidMove(response)) {
+                p1send.writeUTF("Invalid Move! Try Again!");
+                playerOneMove(); // This isn't designed well. Possible stack overflow
+                throw new IllegalArgumentException(); // I'm so sorry
+            }
+            String[] responseArray = response.split(" ");
+            gameBoard.makeMove(1, Integer.parseInt(responseArray[0]), Integer.parseInt(responseArray[1]));
         } catch (IOException ex) {
             System.out.println("ERROR: Could not process player one's move!");
             System.exit(1);
+        } catch (IllegalArgumentException ex) {
+            // Sorry...
         }
     }
 
-    private void playerTwoMoves() {
+    private void playerTwoMove() {
         try {
             p2send.writeUTF("Make a move (x y): ");
             p2send.writeUTF("RESPOND");
-            String[] response = p2recieve.readUTF().split(" ");
-            gameBoard.makeMove(2, Integer.parseInt(response[0]), Integer.parseInt(response[1]));
+            String response = p2recieve.readUTF();
+            if (!isValidMove(response)) {
+                p2send.writeUTF("Invalid Move! Try Again!");
+                playerTwoMove(); // This isn't designed well. Possible stack overflow
+                throw new IllegalArgumentException(); // I'm so sorry
+            }
+            String[] responseArray = response.split(" ");
+            gameBoard.makeMove(2, Integer.parseInt(responseArray[0]), Integer.parseInt(responseArray[1]));
         } catch (IOException ex) {
             System.out.println("ERROR: Could not process player two's move!");
             System.exit(1);
+        } catch (IllegalArgumentException ex) {
+            System.out.println("Invalid move. Asking again...");
         }
+    }
+
+    private boolean isValidMove(String response) {
+        String responses[] = response.split(" ");
+
+        if (responses.length != 2) {
+            return false;
+        }
+
+        int firstNum;
+        int secondNum;
+        try {
+            firstNum = Integer.parseInt(responses[0]);
+            secondNum = Integer.parseInt(responses[1]);
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+
+        if (firstNum > 2 || firstNum < 0) {
+            return false;
+        } else if (secondNum > 2 || secondNum < 0) {
+            return false;
+        }
+
+        if (gameBoard.getCellState(firstNum, secondNum) != 0) {
+            return false;
+        }
+
+        return true;
     }
 
     private void displayBoardState() {
