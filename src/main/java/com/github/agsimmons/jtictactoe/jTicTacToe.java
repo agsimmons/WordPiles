@@ -29,9 +29,9 @@ import com.github.agsimmons.jtictactoe.server.Server;
 public class jTicTacToe {
 
     public static void main(String[] args) {
-        if (args.length > 1) {
+        if (args.length >= 1) {
             // Parse argument(s)
-            switch (args[1]) {
+            switch (args[0]) {
                 case "-c": // Client
                     createClient();
                     break;
