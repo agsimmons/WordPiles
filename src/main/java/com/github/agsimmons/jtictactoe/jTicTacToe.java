@@ -52,7 +52,10 @@ public class jTicTacToe {
     }
 
     private static void createServer() {
-        Server server = new Server();
+        while (true) {
+            Server server = new Server();
+            System.out.println("Restarting Server...");
+        }
     }
 
     private static void displayProgramInfo() {

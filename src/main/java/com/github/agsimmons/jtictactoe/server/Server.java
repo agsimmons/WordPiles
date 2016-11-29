@@ -169,7 +169,6 @@ public class Server {
         disconnectPlayers();
 
         System.out.println("Game Over. Thanks for playing!");
-        System.exit(0);
     }
 
     private void initialize() {
