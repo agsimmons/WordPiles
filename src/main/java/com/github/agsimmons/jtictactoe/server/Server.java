@@ -150,9 +150,6 @@ public class Server {
             if (gameBoard.checkForWinner() == 1) {
                 playerOneWins();
                 break;
-            } else if (gameBoard.checkForWinner() == 2) {
-                playerTwoWins();
-                break;
             } else if (gameBoard.checkForWinner() == 0) {
                 tie();
                 break;
@@ -160,10 +157,7 @@ public class Server {
 
             playerTwoMove();
             displayBoardState();
-            if (gameBoard.checkForWinner() == 1) {
-                playerOneWins();
-                break;
-            } else if (gameBoard.checkForWinner() == 2) {
+            if (gameBoard.checkForWinner() == 2) {
                 playerTwoWins();
                 break;
             } else if (gameBoard.checkForWinner() == 0) {
