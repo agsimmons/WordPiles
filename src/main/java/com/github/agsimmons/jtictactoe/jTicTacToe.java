@@ -30,7 +30,7 @@ public class jTicTacToe {
 
     public static void main(String[] args) {
         if (args.length >= 1) {
-            // Parse argument(s)
+            // Parse first argument
             switch (args[0]) {
                 case "-c": // Client
                     createClient();
