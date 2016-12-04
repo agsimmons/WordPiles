@@ -57,13 +57,13 @@ public class Client {
             boolean addressChosen = false;
             do {
 
-                System.out.print("Server IP (127.0.0.1): ");
+                System.out.print("Server IP (" + DEFAULT_HOST + "): ");
                 serverHost = scanner.nextLine();
                 if (serverHost.equals("")) {
                     serverHost = DEFAULT_HOST;
                 }
 
-                System.out.print("Server Port (8888): ");
+                System.out.print("Server Port (" + DEFAULT_PORT + "): ");
                 serverPort = scanner.nextLine();
                 if (serverPort.equals("")) {
                     port = DEFAULT_PORT;
