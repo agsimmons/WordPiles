@@ -32,7 +32,7 @@ import java.util.Scanner;
 
 public class Server {
 
-    private final int DEFAULT_PORT = 8888;
+    private final int DEFAULT_PORT = 8886;
 
     private int port;
 
