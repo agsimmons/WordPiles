@@ -184,8 +184,8 @@ public class Server {
 
     private void sendWelcomeMessage() {
         try {
-            p1send.writeUTF("Welcome to WordPiles! You are Player 1");
-            p2send.writeUTF("Welcome to WordPiles! You are Player 2");
+            p1send.writeUTF("Welcome to jTic-Tac-Toe! You are Player 1");
+            p2send.writeUTF("Welcome to jTic-Tac-Toe! You are Player 2");
         } catch (IOException ex) {
             System.out.println("ERROR: Could not send welcome message!");
             System.exit(1);
